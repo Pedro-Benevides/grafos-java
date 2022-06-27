@@ -1,12 +1,15 @@
 package com.mycompany.grafo;
 
+import java.util.ArrayList;
+
 public class Vertice {
 
     private int valor;
-    private Aresta aresta;
+    private ArrayList<Aresta> arestas;
 
     public Vertice(int valor) {
         this.valor = valor;
+        this.arestas = new ArrayList<Aresta>();
     }
 
     /**
@@ -23,12 +26,12 @@ public class Vertice {
         this.valor = valor;
     }
 
-    public Aresta getAresta() {
-        return this.aresta;
+    public ArrayList<Aresta> getArestas() {
+        return this.arestas;
     }
 
-    public void setAresta(Aresta a) {
-        this.aresta = a;
+    public void addAresta(Aresta a) {
+        this.arestas.add(a);
     }
 
 }

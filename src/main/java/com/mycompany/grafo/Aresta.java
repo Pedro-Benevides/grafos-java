@@ -12,9 +12,6 @@ public class Aresta {
     public Aresta(Vertice vIni, Vertice vFim) {
         this.inicio = vIni;
         this.fim = vFim;
-
-        vIni.setAresta(this);
-        vFim.setAresta(this);
     }
 
     public Vertice getInicio() {

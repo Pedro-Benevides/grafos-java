@@ -24,6 +24,8 @@ public class Grafo {
 
     public void addAresta(Aresta a) {
         this.arestas.add(a);
+        a.getInicio().addAresta(a);
+        a.getFinal().addAresta(a);
     }
 
     public void deleteVertice(int valor) {
@@ -35,13 +37,11 @@ public class Grafo {
 
     public void deleteAresta(int valorInicio, int valorFinal) {
 
-        this.arestas.removeIf(aresta -> 
-        (aresta.getInicio().getValor() == valorInicio 
-        || aresta.getFinal().getValor() == valorInicio)
-        && 
-        (aresta.getInicio().getValor() == valorFinal 
-        || aresta.getFinal().getValor() == valorFinal)
-        );
+        this.arestas.removeIf(aresta -> (aresta.getInicio().getValor() == valorInicio
+                || aresta.getFinal().getValor() == valorInicio)
+                &&
+                (aresta.getInicio().getValor() == valorFinal
+                        || aresta.getFinal().getValor() == valorFinal));
     }
 
     public void showVertices() {
@@ -82,6 +82,61 @@ public class Grafo {
             } else {
                 System.out.println("Aresta não encontrada: ");
             }
+        });
+    }
+
+    public void grau() {
+        Integer grauMax = this.vertices.get(0).getValor();
+        Integer grauMin = this.vertices.get(0).getValor();
+        Double grauMed = 0.0;
+
+        for (Vertice vertice : this.vertices) {
+            Integer grauV = this.grauVertice(vertice);
+            grauMed += grauV;
+
+            if (grauV > grauMax) {
+                grauMax = grauV;
+            }
+
+            if (grauV < grauMin) {
+                grauMin = grauV;
+            }
+
+        }
+        grauMed /= this.vertices.size();
+
+        System.out.println("GRAU MÍNIMO: " + grauMin);
+        System.out.println("GRAU MÉDIO: " + grauMed);
+        System.out.println("GRAU MÁXIMO: " + grauMax);
+    }
+
+    private Integer grauVertice(Vertice vertice) {
+
+        return vertice.getArestas().size();
+    }
+
+    public Integer grauVertice(int valor) {
+        Vertice vertice = this.vertices.stream().filter(v -> v.getValor() == valor).findFirst().get();
+
+        return vertice.getArestas().size();
+    }
+
+    public boolean checkConexo() {
+        for (Vertice vertice : this.vertices) {
+            if (vertice.getArestas().size() < 1) {
+                System.out.println("Grafo não Conexo, vertice de valor " + vertice.getValor() + " sem conexão");
+                return false;
+            }
+        }
+        System.out.println("Grafo Conexo, todos os vertices tem ao menos uma conexão");
+        return true;
+    }
+
+    public void adjacencias(int valor) {
+        Vertice vertice = this.vertices.stream().filter(v -> v.getValor() == valor).findFirst().get();
+
+        vertice.getArestas().forEach((aresta) -> {
+            System.out.println("[" + aresta.getInicio().getValor() + " -> " + aresta.getFinal().getValor() + "]");
         });
     }
 }

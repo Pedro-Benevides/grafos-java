@@ -136,7 +136,38 @@ public class Grafo {
         Vertice vertice = this.vertices.stream().filter(v -> v.getValor() == valor).findFirst().get();
 
         vertice.getArestas().forEach((aresta) -> {
-            System.out.println("[" + aresta.getInicio().getValor() + " -> " + aresta.getFinal().getValor() + "]");
+            if (vertice == aresta.getInicio()) {
+                System.out.print("[" + aresta.getInicio().getValor() + " -> " + aresta.getFinal().getValor() + "]");
+            } else {
+                System.out.print("[" + aresta.getFinal().getValor() + " -> " + aresta.getInicio().getValor() + "]");
+
+            }
         });
+    }
+
+    public void matrizAdjacencias() {
+        // criandoMatriz
+        int countV = this.vertices.size();
+        int[][] matrizAdjacencia = new int[countV][countV];
+
+        this.arestas.forEach((aresta) -> {
+            matrizAdjacencia[aresta.getInicio().getValor() - 1][aresta.getFinal().getValor() - 1] = 1;
+            matrizAdjacencia[aresta.getFinal().getValor() - 1][aresta.getInicio().getValor() - 1] = 1;
+        });
+
+        // printMatriz
+        System.out.print('\t');
+        for (Vertice verticeCol : this.vertices) {
+            System.out.print("|" + verticeCol.getValor() + "|");
+
+        }
+        System.out.println("\n");
+        for (Vertice verticeCol : this.vertices) {
+            System.out.print("|" + verticeCol.getValor() + "|" + '\t');
+            for (Vertice verticeRow : this.vertices) {
+                System.out.print("[" + matrizAdjacencia[verticeCol.getValor() - 1][verticeRow.getValor() - 1] + "]");
+            }
+            System.out.println();
+        }
     }
 }

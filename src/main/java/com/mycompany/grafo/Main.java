@@ -54,7 +54,10 @@ public class Main {
         // ADJACENCIAS DE UM VERTICE
         // g.adjacencias(1);
 
-        //GRAU MINIMO, MEDIO, MAXIMO
-        g.grau();
+        // GRAU MINIMO, MEDIO, MAXIMO
+        // g.grau();
+
+        // MATRIZ ADJACENCIAS
+        g.matrizAdjacencias();
     }
 }

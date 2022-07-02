@@ -121,14 +121,18 @@ public class Grafo {
         return vertice.getArestas().size();
     }
 
-    public boolean checkConexo() {
+    public boolean checkConexo(boolean showPrint) {
         for (Vertice vertice : this.vertices) {
             if (vertice.getArestas().size() < 1) {
-                System.out.println("Grafo não Conexo, vertice de valor " + vertice.getValor() + " sem conexão");
+                if (showPrint) {
+                    System.out.println("Grafo não Conexo, vertice de valor " + vertice.getValor() + " sem conexão");
+                }
                 return false;
             }
         }
-        System.out.println("Grafo Conexo, todos os vertices tem ao menos uma conexão");
+        if (showPrint) {
+            System.out.println("Grafo Conexo, todos os vertices tem ao menos uma conexão");
+        }
         return true;
     }
 
@@ -168,6 +172,33 @@ public class Grafo {
                 System.out.print("[" + matrizAdjacencia[verticeCol.getValor() - 1][verticeRow.getValor() - 1] + "]");
             }
             System.out.println();
+        }
+    }
+
+    public void caminhoEuler() {
+        int countPares = 0;
+        int countImpares = 0;
+        boolean conexo = this.checkConexo(false);
+
+        for (Vertice vertice : this.vertices) {
+            int countA = vertice.getArestas().size();
+
+            // System.out.println(vertice.getValor() + ": " + countA);
+
+            if (countA % 2 == 0) {
+                countPares += 1;
+            } else {
+                countImpares += 1;
+            }
+        }
+
+        boolean checkAllPares = (countImpares == 0 && countPares == this.vertices.size());
+        boolean checkImpares = (countImpares == 2 && countPares == this.vertices.size() - 2);
+
+        if ((checkAllPares && conexo) || (checkImpares && conexo)) {
+            System.out.println("Caminho de Euler é possivel");
+        } else {
+            System.out.println("Caminho de Euler Impossivel");
         }
     }
 }

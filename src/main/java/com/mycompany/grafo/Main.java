@@ -14,8 +14,8 @@ public class Main {
         Vertice v4 = new Vertice(4);
         Aresta a1 = new Aresta(v1, v2);
         Aresta a2 = new Aresta(v1, v3);
-        Aresta a4 = new Aresta(v1, v4);
         Aresta a3 = new Aresta(v2, v3);
+        Aresta a4 = new Aresta(v2, v4);
 
         // ADICIONAR VERTICES E ARESTAS ENTRE DOIS VERTICES
         g.addVertice(v1);
@@ -58,6 +58,9 @@ public class Main {
         // g.grau();
 
         // MATRIZ ADJACENCIAS
-        g.matrizAdjacencias();
+        // g.matrizAdjacencias();
+
+        // CAMINHO DE EULER
+        g.caminhoEuler();
     }
 }

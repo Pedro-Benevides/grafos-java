@@ -32,6 +32,9 @@ public class Main {
         // g.showVertices();
         // g.showConections();
 
+        // TESTAR CONEXAO ENTRE VERTICES
+        g.testConection(1, 2);
+
         // DELETAR VERTICE
         // System.out.println("deletando vertice:");
         // g.deleteVertice(1);
@@ -61,6 +64,6 @@ public class Main {
         // g.matrizAdjacencias();
 
         // CAMINHO DE EULER
-        g.caminhoEuler();
+        // g.caminhoEuler();
     }
 }

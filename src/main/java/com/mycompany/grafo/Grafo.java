@@ -66,21 +66,19 @@ public class Grafo {
 
     }
 
-    public void testConection(Vertice v1, Vertice v2) {
+    public void testConection(int v1, int v2) {
         this.arestas.forEach((aresta) -> {
-            boolean testInicio = (aresta.getInicio() == v1
-                    || aresta.getInicio() == v2);
+            boolean testInicio = (aresta.getInicio().getValor() == v1
+                    || aresta.getInicio().getValor() == v2);
 
-            boolean testFim = (aresta.getFinal() == v1
-                    || aresta.getFinal() == v2);
+            boolean testFim = (aresta.getFinal().getValor() == v1
+                    || aresta.getFinal().getValor() == v2);
 
             if (testInicio && testFim) {
                 System.out.println("Aresta encontrada: ");
                 System.out.println(
                         "[" + aresta.getInicio().getValor() + " -> "
                                 + aresta.getFinal().getValor() + "]");
-            } else {
-                System.out.println("Aresta não encontrada: ");
             }
         });
     }
@@ -150,7 +148,6 @@ public class Grafo {
     }
 
     public void matrizAdjacencias() {
-        // criandoMatriz
         int countV = this.vertices.size();
         int[][] matrizAdjacencia = new int[countV][countV];
 
@@ -159,7 +156,6 @@ public class Grafo {
             matrizAdjacencia[aresta.getFinal().getValor() - 1][aresta.getInicio().getValor() - 1] = 1;
         });
 
-        // printMatriz
         System.out.print('\t');
         for (Vertice verticeCol : this.vertices) {
             System.out.print("|" + verticeCol.getValor() + "|");
@@ -182,8 +178,6 @@ public class Grafo {
 
         for (Vertice vertice : this.vertices) {
             int countA = vertice.getArestas().size();
-
-            // System.out.println(vertice.getValor() + ": " + countA);
 
             if (countA % 2 == 0) {
                 countPares += 1;

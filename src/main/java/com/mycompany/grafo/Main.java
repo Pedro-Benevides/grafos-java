@@ -12,10 +12,11 @@ public class Main {
         Vertice v2 = new Vertice(2);
         Vertice v3 = new Vertice(3);
         Vertice v4 = new Vertice(4);
+
         Aresta a1 = new Aresta(v1, v2);
-        Aresta a2 = new Aresta(v1, v3);
+        Aresta a2 = new Aresta(v3, v4);
         Aresta a3 = new Aresta(v2, v3);
-        Aresta a4 = new Aresta(v2, v4);
+        Aresta a4 = new Aresta(v1, v4);
 
         // ADICIONAR VERTICES E ARESTAS ENTRE DOIS VERTICES
         g.addVertice(v1);
@@ -25,15 +26,15 @@ public class Main {
 
         g.addAresta(a1);
         g.addAresta(a2);
-        g.addAresta(a3);
-        g.addAresta(a4);
+        // g.addAresta(a3);
+        // g.addAresta(a4);
 
         // MOSTRAR VERTICES E ARESTAS NO GRAFO
-        // g.showVertices();
-        // g.showConections();
+        g.showVertices();
+        g.showConections();
 
         // TESTAR CONEXAO ENTRE VERTICES
-        g.testConection(1, 2);
+        // g.testConection(1, 2);
 
         // DELETAR VERTICE
         // System.out.println("deletando vertice:");
@@ -52,7 +53,7 @@ public class Main {
         // System.out.println(g.grauVertice(1));
 
         // CHECAR GRAFO CONEXO
-        // g.checkConexo();
+        g.checkConexo(true);
 
         // ADJACENCIAS DE UM VERTICE
         // g.adjacencias(1);

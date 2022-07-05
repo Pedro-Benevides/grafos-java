@@ -37,11 +37,27 @@ public class Grafo {
 
     public void deleteAresta(int valorInicio, int valorFinal) {
 
-        this.arestas.removeIf(aresta -> (aresta.getInicio().getValor() == valorInicio
-                || aresta.getFinal().getValor() == valorInicio)
-                &&
-                (aresta.getInicio().getValor() == valorFinal
-                        || aresta.getFinal().getValor() == valorFinal));
+        this.arestas.removeIf(aresta -> {
+
+            if (aresta.getInicio().getValor() == valorInicio
+                    && aresta.getFinal().getValor() == valorFinal) {
+                aresta.getInicio().getArestas().removeIf(arestaV -> arestaV == aresta);
+                aresta.getFinal().getArestas().removeIf(arestaV -> arestaV == aresta);
+
+            } else if (aresta.getInicio().getValor() == valorFinal
+                    && aresta.getFinal().getValor() == valorInicio) {
+                aresta.getInicio().getArestas().removeIf(arestaV -> arestaV == aresta);
+                aresta.getFinal().getArestas().removeIf(arestaV -> arestaV == aresta);
+
+            }
+
+            return (aresta.getInicio().getValor() == valorInicio
+                    || aresta.getFinal().getValor() == valorInicio)
+                    &&
+                    (aresta.getInicio().getValor() == valorFinal
+                            || aresta.getFinal().getValor() == valorFinal);
+        });
+
     }
 
     public void showVertices() {
@@ -119,32 +135,68 @@ public class Grafo {
         return vertice.getArestas().size();
     }
 
-    public boolean checkConexo(boolean showPrint) {
-        for (Vertice vertice : this.vertices) {
-            if (vertice.getArestas().size() < 1) {
-                if (showPrint) {
-                    System.out.println("Grafo não Conexo, vertice de valor " + vertice.getValor() + " sem conexão");
+    private void testConection(Vertice vertice) {
+        vertice.setVisitado(true);
+        ArrayList<Vertice> adjacencias = adjacencias(vertice);
+        if (adjacencias.size() >= 1) {
+            for (Vertice adjacente : adjacencias) {
+                if (!adjacente.isVisitado()) {
+                    this.testConection(adjacente);
                 }
-                return false;
             }
+
         }
-        if (showPrint) {
-            System.out.println("Grafo Conexo, todos os vertices tem ao menos uma conexão");
+
+    }
+
+    public boolean checkConexo(boolean showPrint) {
+        ArrayList<Vertice> verticesCopy = this.vertices;
+        Vertice firstV = this.vertices.stream().findFirst().get();
+        this.testConection(firstV);
+
+        verticesCopy.removeIf(v -> v.isVisitado() == true);
+
+        if (verticesCopy.size() >= 1) {
+            if (showPrint) {
+                System.out.println("Grafo não Conexo");
+            }
+            return false;
+        } else if (showPrint) {
+            System.out.println("Grafo Conexo");
         }
         return true;
     }
 
-    public void adjacencias(int valor) {
-        Vertice vertice = this.vertices.stream().filter(v -> v.getValor() == valor).findFirst().get();
+    private ArrayList<Vertice> adjacencias(Vertice vertice) {
+        ArrayList<Vertice> adjacentes = new ArrayList<Vertice>();
 
-        vertice.getArestas().forEach((aresta) -> {
+        for (Aresta aresta : vertice.getArestas()) {
             if (vertice == aresta.getInicio()) {
+                adjacentes.add(aresta.getFinal());
+            } else {
+                adjacentes.add(aresta.getInicio());
+            }
+        }
+
+        return adjacentes;
+    }
+
+    public ArrayList<Vertice> adjacencias(int valor) {
+        Vertice vertice = this.vertices.stream().filter(v -> v.getValor() == valor).findFirst().get();
+        ArrayList<Vertice> adjacentes = new ArrayList<Vertice>();
+
+        for (Aresta aresta : vertice.getArestas()) {
+            if (vertice == aresta.getInicio()) {
+                adjacentes.add(aresta.getFinal());
                 System.out.print("[" + aresta.getInicio().getValor() + " -> " + aresta.getFinal().getValor() + "]");
             } else {
+                adjacentes.add(aresta.getInicio());
                 System.out.print("[" + aresta.getFinal().getValor() + " -> " + aresta.getInicio().getValor() + "]");
 
             }
-        });
+        }
+
+        return adjacentes;
     }
 
     public void matrizAdjacencias() {
